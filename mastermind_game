@@ -1,0 +1,79 @@
+NAME: SUSMITA MAZUMDAR
+TASK 1: MASTERMIND GAME
+domain: python programming
+batch: october
+===================================================================================================================================
+
+import random
+
+def generate_secret_number():
+    return random.randint(1000, 9999)
+
+def get_correct_digits(secret, guess):
+    correct = 0
+    for i in range(4):
+        if secret[i] == guess[i]:
+            correct += 1
+    return correct
+
+def main():
+    print("MASTERMIND GAME")
+    player1_score = 0
+    player2_score = 0
+
+    while True:
+        secret_number = str(generate_secret_number())
+        attempts_player1 = 0
+        attempts_player2 = 0
+
+        print("\nPlayer 1's Turn")
+        print("Player 1, set a 4-digit number for Player 2 to guess.")
+        
+        while True:
+            player2_guess = input("Player 2, make your guess: ")
+            attempts_player1 += 1
+
+            if player2_guess == secret_number:
+                print(f"Player 2 guessed the number {secret_number} correctly in {attempts_player1} attempts!")
+                break
+
+            correct_digits = get_correct_digits(secret_number, player2_guess)
+            print(f"Player 1 hints: {correct_digits} digits are correct.")
+
+        print("\nPlayer 2's Turn")
+        print("Player 2, set a 4-digit number for Player 1 to guess.")
+
+        while True:
+            player1_guess = str(generate_secret_number())
+            attempts_player2 += 1
+
+            correct_digits = get_correct_digits(player1_guess, secret_number)
+
+            if correct_digits == 4:
+                print(f"Player 1 guessed the number {secret_number} correctly in {attempts_player2} attempts!")
+                break
+
+        if attempts_player1 < attempts_player2:
+            print("Player 1 wins this round!")
+            player1_score += 1
+        elif attempts_player1 > attempts_player2:
+            print("Player 2 wins this round!")
+            player2_score += 1
+        else:
+            print("It's a tie!")
+
+        play_again = input("Do you want to play again? (yes or no): ").lower()
+        if play_again != "yes":
+            break
+
+    print(f"Player 1's Score: {player1_score}")
+    print(f"Player 2's Score: {player2_score}")
+    if player1_score > player2_score:
+        print("Player 1 is crowned Mastermind!")
+    elif player2_score > player1_score:
+        print("Player 2 is crowned Mastermind!")
+    else:
+        print("It's a tie!")
+
+if __name__ == "__main__":
+    main()
